@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, TypeVar
 
 from httpx import AsyncClient, HTTPStatusError, Response
 
-from aiokeepin.exceptions.shared import KeepinStatusError
+from aiokeepin.exceptions.base import KeepinStatusError
 
 T = TypeVar("T")
 
