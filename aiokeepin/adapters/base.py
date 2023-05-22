@@ -1,11 +1,10 @@
 import logging
-from typing import Any, Dict, List, Optional, TypeVar
+from typing import Any, Dict, List, Optional
 
 from httpx import AsyncClient, HTTPStatusError, Response
 
 from aiokeepin.exceptions.base import KeepinStatusError
 
-T = TypeVar("T")
 
 BASE_URL = "https://api.keepincrm.com/v1"
 logger = logging.getLogger(__name__)
