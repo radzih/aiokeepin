@@ -125,7 +125,7 @@ class BaseAdapter:
         while True:
             params["page"] = page
 
-            respone_data = await self._get(path, params=params)
+            respone_data = await self.get(path, params=params)
 
             items += respone_data["items"]
 
