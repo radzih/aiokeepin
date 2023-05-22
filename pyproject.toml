@@ -4,6 +4,10 @@ version = "0.1.0"
 description = "A python wrapper for the KeepinCRM API"
 authors = ["Vadim Radzih <iphonevadim2003@gmail.com>"]
 readme = "README.md"
+homepage = "https://github.com/radzih/aiokeepin"
+repository = "https://github.com/radzih/aiokeepin"
+license = "MIT"
+keywords = ["keepin", "keepincrm", "api", "wrapper", "async", "httpx", "aiokeepin"]
 
 
 [tool.poetry.dependencies]
