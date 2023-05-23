@@ -15,7 +15,7 @@ async def test_invalid_api_key_error():
         await client.get("/clients")
     except InvalidAPIKeyError as e:
         assert e.status_code == 401
-        
+
     try:
         await client.get("/clients")
     except KeepinStatusError as e:
