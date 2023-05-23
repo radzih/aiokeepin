@@ -6,6 +6,7 @@ from httpx import AsyncClient, HTTPStatusError, Response
 from aiokeepin.exceptions.base import (
     InvalidAPIKeyError,
     KeepinStatusError,
+    NotFoundError,
     ValidationError,
 )
 
@@ -65,6 +66,8 @@ class BaseAdapter:
                 raise InvalidAPIKeyError(status_code) from e
             if status_code == 422:
                 raise ValidationError(status_code) from e
+            if status_code == 404:
+                raise NotFoundError(status_code) from e
             raise KeepinStatusError(status_code) from e
 
         return response

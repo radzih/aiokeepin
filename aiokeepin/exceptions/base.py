@@ -23,3 +23,9 @@ class ValidationError(KeepinException):
     """Exception raised for invalid data."""
 
     pass
+
+
+class NotFoundError(KeepinStatusError):
+    """Exception raised for not found resources."""
+
+    pass
