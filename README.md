@@ -117,7 +117,7 @@ from aiokeepin.exceptions import KeepinStatusError
 try:
     response = await client.get('/nonexistent_endpoint')
 except KeepinStatusError as e:
-    print(f"Error: {e}")
+    print(f"Error: {e.status_code}")
 ```
 
 ## Documentation
