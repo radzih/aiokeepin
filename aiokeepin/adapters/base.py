@@ -63,7 +63,7 @@ class BaseAdapter:
             response.raise_for_status()
         except HTTPStatusError as e:
             status_code = e.response.status_code
-            if e.response.status_code == 401:
+            if status_code == 401:
                 raise InvalidAPIKeyError(status_code) from e
             if status_code == 422:
                 raise ValidationError(status_code) from e
