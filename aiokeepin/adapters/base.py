@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional
 from httpx import AsyncClient, HTTPStatusError, Response
 
 from aiokeepin.exceptions.base import (
+    InternalServerError,
     InvalidAPIKeyError,
     KeepinStatusError,
     NotFoundError,
@@ -68,6 +69,8 @@ class BaseAdapter:
                 raise ValidationError(status_code) from e
             if status_code == 404:
                 raise NotFoundError(status_code) from e
+            if status_code >= 500:
+                raise InternalServerError(status_code) from e
             raise KeepinStatusError(status_code) from e
 
         return response

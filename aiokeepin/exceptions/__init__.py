@@ -1,4 +1,5 @@
 from .base import (
+    InternalServerError,
     InvalidAPIKeyError,
     KeepinStatusError,
     NotFoundError,
@@ -10,4 +11,5 @@ __all__ = [
     "InvalidAPIKeyError",
     "ValidationError",
     "NotFoundError",
+    "InternalServerError",
 ]

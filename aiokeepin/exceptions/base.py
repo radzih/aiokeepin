@@ -29,3 +29,9 @@ class NotFoundError(KeepinStatusError):
     """Exception raised for not found resources."""
 
     pass
+
+
+class InternalServerError(KeepinStatusError):
+    """Exception raised for internal server error."""
+
+    pass
