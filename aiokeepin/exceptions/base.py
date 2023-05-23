@@ -1,6 +1,5 @@
 class KeepinException(BaseException):
     """Base exception for aiokeepin."""
-    pass
 
 
 class KeepinStatusError(KeepinException):
