@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional
 
 from httpx import AsyncClient, HTTPStatusError, Response
 
-from aiokeepin.exceptions.base import KeepinStatusError
+from aiokeepin.exceptions.base import KeepinStatusError, InvalidAPIKeyError
 
 
 BASE_URL = "https://api.keepincrm.com/v1"
@@ -57,7 +57,10 @@ class BaseAdapter:
         try:
             response.raise_for_status()
         except HTTPStatusError as e:
-            raise KeepinStatusError(e.response.status_code) from e
+            status_code = e.response.status_code
+            if e.response.status_code == 401:
+                raise InvalidAPIKeyError(status_code) from e
+            raise KeepinStatusError(status_code) from e
 
         return response
 

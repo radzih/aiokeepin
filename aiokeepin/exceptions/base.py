@@ -9,3 +9,8 @@ class KeepinStatusError(KeepinException):
 
     def __init__(self, *args: object) -> None:
         self.status_code = args[0]
+
+
+class InvalidAPIKeyError(KeepinStatusError):
+    """Exception raised for invalid API key."""
+    pass
