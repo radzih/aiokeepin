@@ -1,3 +1,3 @@
-from .base import KeepinStatusError, InvalidAPIKeyError
+from .base import InvalidAPIKeyError, KeepinStatusError, ValidationError
 
-__all__ = ["KeepinStatusError", "InvalidAPIKeyError"]
+__all__ = ["KeepinStatusError", "InvalidAPIKeyError", "ValidationError"]
