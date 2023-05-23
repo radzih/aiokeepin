@@ -3,8 +3,13 @@ from typing import Any, Dict, List, Optional
 
 from httpx import AsyncClient, HTTPStatusError, Response
 
-from aiokeepin.exceptions.base import KeepinStatusError
-
+from aiokeepin.exceptions.base import (
+    InternalServerError,
+    InvalidAPIKeyError,
+    KeepinStatusError,
+    NotFoundError,
+    ValidationError,
+)
 
 BASE_URL = "https://api.keepincrm.com/v1"
 logger = logging.getLogger(__name__)
@@ -57,7 +62,17 @@ class BaseAdapter:
         try:
             response.raise_for_status()
         except HTTPStatusError as e:
-            raise KeepinStatusError(e.response.status_code) from e
+            status_code = e.response.status_code
+            response_data = e.response.text
+            if status_code == 401:
+                raise InvalidAPIKeyError(status_code, response_data) from e
+            if status_code == 422:
+                raise ValidationError(status_code, response_data) from e
+            if status_code == 404:
+                raise NotFoundError(status_code, response_data) from e
+            if status_code >= 500:
+                raise InternalServerError(status_code, response_data) from e
+            raise KeepinStatusError(status_code, response_data) from e
 
         return response
 
@@ -190,7 +205,7 @@ class BaseAdapter:
         ### Returns:
         - `List[Dict]`: List of items.
         """
-    
+
         items = []
 
         if not params:

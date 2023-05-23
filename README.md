@@ -109,16 +109,32 @@ response = await client.get_paginated_items('/clients')
 
 ## Error Handling
 
-In case of an error response from the API, an exception will be raised. You can handle exceptions using try-except blocks. Here's an example:
+In case of an error response from the KeepinCRM API, an exception will be raised. The exceptions provided by the aiokeepin library inherit from the base `KeepinException` class. There are several specific exceptions available for different types of errors:
+
+- `KeepinStatusError`: This exception is raised for non-2xx status codes. It contains the `status_code` and `response` attributes, providing information about the error.
+
+- `InvalidAPIKeyError`: This exception is raised specifically for an invalid API key.
+
+- `ValidationError`: This exception is raised for invalid data.
+
+- `NotFoundError`: This exception is raised when the requested resource is not found.
+
+- `InternalServerError`: This exception is raised for internal server errors.
+
+When making API requests, you can handle exceptions using try-except blocks to capture and handle specific types of errors. Here's an example:
 
 ```python
-from aiokeepin.exceptions import KeepinStatusError
+from aiokeepin.exceptions import KeepinStatusError, InvalidAPIKeyError
 
 try:
     response = await client.get('/nonexistent_endpoint')
+except InvalidAPIKeyError:
+    print("Invalid API key provided.")
 except KeepinStatusError as e:
-    print(f"Error: {e.status_code}")
+    print(f"Error: {e.status_code} - {e.response}")
 ```
+
+You can customize the exception handling based on your specific needs. By catching the appropriate exceptions, you can handle different error scenarios and provide appropriate error messages or take specific actions. Make sure to refer to the documentation for the KeepinCRM API for more details on the possible error responses and their corresponding status codes.
 
 ## Documentation
 
