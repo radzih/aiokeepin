@@ -1,4 +1,3 @@
-import logging
 from typing import Any, Dict, List, Optional
 
 from httpx import AsyncClient, HTTPStatusError, Response
@@ -10,9 +9,9 @@ from aiokeepin.exceptions.base import (
     NotFoundError,
     ValidationError,
 )
+from aiokeepin.utils.logging import logger
 
 BASE_URL = "https://api.keepincrm.com/v1"
-logger = logging.getLogger(__name__)
 
 
 class BaseAdapter:
@@ -50,6 +49,8 @@ class BaseAdapter:
 
         headers = {"X-Auth-Token": self.api_key}
 
+        logger.debug(f"Sending {method} request to {path}")
+
         response = await self.session.request(
             method,
             path,
@@ -58,6 +59,8 @@ class BaseAdapter:
             json=json,
             headers=headers,
         )
+
+        logger.debug(f"Received {response.status_code} response from {path}")
 
         try:
             response.raise_for_status()
