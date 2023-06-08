@@ -1,3 +1,4 @@
+import asyncio
 from typing import Any, Dict, List, Optional
 
 from httpx import AsyncClient, HTTPStatusError, Response
@@ -208,7 +209,6 @@ class BaseAdapter:
         ### Returns:
         - `List[Dict]`: List of items.
         """
-
         items = []
 
         if not params:
@@ -217,22 +217,19 @@ class BaseAdapter:
         page = 1
         total_pages = 1
 
-        if not count:
-            condition = lambda: page <= total_pages
-        else:
-            condition = lambda: len(items) < count and page <= total_pages
+        response_data = await self.get(path, params=params)
+        items = response_data["items"]
 
-        while True:
+        tasks = set()
+
+        total_pages = response_data["pagination"]["total_pages"]
+
+        for page in range(2, total_pages + 1):
             params["page"] = page
+            tasks.add(asyncio.create_task(self.get(path, params=params)))
 
-            respone_data = await self.get(path, params=params)
-
-            items += respone_data["items"]
-
-            total_pages = respone_data["pagination"]["total_pages"]
-            page += 1
-
-            if not condition():
-                break
+        for task in asyncio.as_completed(tasks):
+            response_data = await task
+            items += response_data["items"]
 
         return items[:count]
